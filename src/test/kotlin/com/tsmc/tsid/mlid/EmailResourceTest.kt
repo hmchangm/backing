@@ -28,5 +28,19 @@ class EmailResourceTest {
             .then()
             .statusCode(200)
 
+        EmailPayload(
+            recipient = "recipient@example.com",
+            subject = "Test Email",
+            body = "This is a test email.",
+            type = "html"
+        ).let {
+            RestAssured.given()
+                .contentType(ContentType.JSON)
+                .body(it)
+                .`when`()
+                .post("/email")
+                .then()
+                .statusCode(200)
+        }
     }
 }

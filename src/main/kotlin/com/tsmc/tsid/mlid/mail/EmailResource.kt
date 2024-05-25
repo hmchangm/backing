@@ -15,12 +15,15 @@ import jakarta.ws.rs.core.Response
 @Consumes(MediaType.APPLICATION_JSON)
 class EmailResource(val mailer: ReactiveMailer) {
 
-
     @POST
-    suspend fun sendEmail(emailPayload: EmailPayload): Response {
-        mailer.send(
-            Mail.withText(emailPayload.recipient, emailPayload.subject, emailPayload.body)
-        ).awaitSuspending()
-        return Response.ok().build()
-    }
+    suspend fun sendEmail(emailPayload: EmailPayload): Response =
+        when (emailPayload.type) {
+            "html" -> mailer.send(
+                Mail.withHtml(emailPayload.recipient, emailPayload.subject, emailPayload.body)
+            ).awaitSuspending()
+            else -> mailer.send(
+                Mail.withText(emailPayload.recipient, emailPayload.subject, emailPayload.body)
+            ).awaitSuspending()
+        }.run { Response.ok().build() }
+
 }
