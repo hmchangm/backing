@@ -15,9 +15,11 @@ class EmailResourceTest {
     @Test
     fun testSendEmailEndpoint() {
         val emailPayload = EmailPayload(
-            recipient = "recipient@example.com",
+            recipient = listOf("recipient@example.com"),
             subject = "Test Email",
-            body = "This is a test email."
+            body = "This is a test email.",
+            contentType = "text",
+            from = "brandy@txmx.com"
         )
 
         RestAssured.given()
@@ -29,10 +31,11 @@ class EmailResourceTest {
             .statusCode(200)
 
         EmailPayload(
-            recipient = "recipient@example.com",
-            subject = "Test Email",
+            recipient = listOf("recipient@example.com","abad@ggga.dcd"),
+            subject = "Test Email 2 ",
             body = "This is a test email.",
-            type = "html"
+            contentType = "html",
+            from = "brandy@txmx.com"
         ).let {
             RestAssured.given()
                 .contentType(ContentType.JSON)

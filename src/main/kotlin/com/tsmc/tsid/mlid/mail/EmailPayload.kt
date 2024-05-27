@@ -1,8 +1,9 @@
 package com.tsmc.tsid.mlid.mail
 
 data class EmailPayload(
-    val recipient: String,
+    val recipient: List<String>,
     val subject: String,
     val body: String,
-    val type: String = "text",
+    val contentType:String,
+    val from: String,
 )
